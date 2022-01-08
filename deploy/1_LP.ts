@@ -5,15 +5,15 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 const deployLP: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployments, getNamedAccounts } = hre;
 
-  // const { deploy } = deployments;
-  // const { deployer } = await getNamedAccounts();
-  // console.log("deployer", deployer);
+  const { deploy } = deployments;
+  const { deployer } = await getNamedAccounts();
+  console.log("deployer", deployer);
 
-  // const deployResult = await deploy("LP", {
-  //   from: deployer,
-  //   args: ["LP token", "LP"],
-  //   log: true
-  // });
+  const deployResult = await deploy("LP", {
+    from: deployer,
+    args: ["LP token", "LP"],
+    log: true
+  });
   // if (deployResult.newlyDeployed) {
   //   console.log("New LP deployment");
   // }

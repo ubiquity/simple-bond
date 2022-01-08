@@ -1,0 +1,300 @@
+{
+  "address": "0xA802e065da87bB249d35e3a22dF58cFa8f268E03",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_tokenVested",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_tokenRewards",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_rewardPourcentage",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_vestingBlocks",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "bonds",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "vested",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "rewards",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "block",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "depositLP",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "vested",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "rewards",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "block",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct SimpleBond.Bond",
+          "name": "bond",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "rewardPourcentage",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "tokenRewards",
+      "outputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "tokenVested",
+      "outputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalRewards",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalVested",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "vestingBlocks",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x6108800122ad910085dd5c634c96b668ee05b028dd1fe12fac239f956cda6709",
+  "receipt": {
+    "to": null,
+    "from": "0x6eebAe27d69fa80f0E4C0E973A2Fed218A56880c",
+    "contractAddress": "0xA802e065da87bB249d35e3a22dF58cFa8f268E03",
+    "transactionIndex": 14,
+    "gasUsed": "379830",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x4484f6336ae9e049ddd0da4dec7cd17618e9000b10f4872c67a6bd7a0445bb83",
+    "transactionHash": "0x6108800122ad910085dd5c634c96b668ee05b028dd1fe12fac239f956cda6709",
+    "logs": [],
+    "blockNumber": 9956417,
+    "cumulativeGasUsed": "6884385",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0x729C0e3DEf74CF14a628874433571Ba09Ab9147a",
+    "0x387b78F055d2DeeDba54b5E81533EE1dD43dF615",
+    61700,
+    32300
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "b42de66d0cc7846aedd343b1bea795ce",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.9+commit.e5eed63a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_tokenVested\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_tokenRewards\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_rewardPourcentage\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_vestingBlocks\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"bonds\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"vested\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"rewards\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"block\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"depositLP\",\"outputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"vested\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"rewards\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"block\",\"type\":\"uint256\"}],\"internalType\":\"struct SimpleBond.Bond\",\"name\":\"bond\",\"type\":\"tuple\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"rewardPourcentage\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"tokenRewards\",\"outputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"tokenVested\",\"outputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"totalRewards\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"totalVested\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"vestingBlocks\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/SimpleBond.sol\":\"SimpleBond\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts v4.4.1 (token/ERC20/IERC20.sol)\\n\\npragma solidity ^0.8.0;\\n\\n/**\\n * @dev Interface of the ERC20 standard as defined in the EIP.\\n */\\ninterface IERC20 {\\n    /**\\n     * @dev Returns the amount of tokens in existence.\\n     */\\n    function totalSupply() external view returns (uint256);\\n\\n    /**\\n     * @dev Returns the amount of tokens owned by `account`.\\n     */\\n    function balanceOf(address account) external view returns (uint256);\\n\\n    /**\\n     * @dev Moves `amount` tokens from the caller's account to `recipient`.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transfer(address recipient, uint256 amount) external returns (bool);\\n\\n    /**\\n     * @dev Returns the remaining number of tokens that `spender` will be\\n     * allowed to spend on behalf of `owner` through {transferFrom}. This is\\n     * zero by default.\\n     *\\n     * This value changes when {approve} or {transferFrom} are called.\\n     */\\n    function allowance(address owner, address spender) external view returns (uint256);\\n\\n    /**\\n     * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * IMPORTANT: Beware that changing an allowance with this method brings the risk\\n     * that someone may use both the old and the new allowance by unfortunate\\n     * transaction ordering. One possible solution to mitigate this race\\n     * condition is to first reduce the spender's allowance to 0 and set the\\n     * desired value afterwards:\\n     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729\\n     *\\n     * Emits an {Approval} event.\\n     */\\n    function approve(address spender, uint256 amount) external returns (bool);\\n\\n    /**\\n     * @dev Moves `amount` tokens from `sender` to `recipient` using the\\n     * allowance mechanism. `amount` is then deducted from the caller's\\n     * allowance.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transferFrom(\\n        address sender,\\n        address recipient,\\n        uint256 amount\\n    ) external returns (bool);\\n\\n    /**\\n     * @dev Emitted when `value` tokens are moved from one account (`from`) to\\n     * another (`to`).\\n     *\\n     * Note that `value` may be zero.\\n     */\\n    event Transfer(address indexed from, address indexed to, uint256 value);\\n\\n    /**\\n     * @dev Emitted when the allowance of a `spender` for an `owner` is set by\\n     * a call to {approve}. `value` is the new allowance.\\n     */\\n    event Approval(address indexed owner, address indexed spender, uint256 value);\\n}\\n\",\"keccak256\":\"0x61437cb513a887a1bbad006e7b1c8b414478427d33de47c5600af3c748f108da\",\"license\":\"MIT\"},\"contracts/SimpleBond.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.9;\\n\\nimport \\\"@openzeppelin/contracts/token/ERC20/IERC20.sol\\\";\\n\\ncontract SimpleBond {\\n  IERC20 public immutable tokenVested;\\n  IERC20 public immutable tokenRewards;\\n  uint256 public immutable rewardPourcentage;\\n  uint256 public immutable vestingBlocks;\\n\\n  struct Bond {\\n    uint256 vested;\\n    uint256 rewards;\\n    uint256 block;\\n  }\\n  mapping(address => Bond[]) public bonds;\\n  uint256 public totalVested;\\n  uint256 public totalRewards;\\n\\n  constructor(\\n    address _tokenVested,\\n    address _tokenRewards,\\n    uint256 _rewardPourcentage,\\n    uint256 _vestingBlocks\\n  ) {\\n    require(_tokenVested != address(0), \\\"Invalid LP token\\\");\\n    require(_tokenRewards != address(0), \\\"Invalid Reward token\\\");\\n    require(_rewardPourcentage > 0, \\\"Invalid Reward pourcentage\\\");\\n    require(_vestingBlocks > 0, \\\"Invalid Vesting blocks number\\\");\\n    tokenVested = IERC20(_tokenVested);\\n    tokenRewards = IERC20(_tokenRewards);\\n    rewardPourcentage = _rewardPourcentage;\\n    vestingBlocks = _vestingBlocks;\\n  }\\n\\n  function depositLP(uint256 amount) public returns (Bond memory bond) {\\n    tokenVested.approve(address(this), amount);\\n    require(tokenVested.transferFrom(msg.sender, address(this), amount), \\\"LP deposit failed\\\");\\n\\n    bond.vested = amount;\\n    totalVested += amount;\\n\\n    uint256 rewards = ((amount * rewardPourcentage) / 100) * vestingBlocks;\\n    bond.rewards = rewards;\\n    totalRewards += rewards;\\n\\n    bond.block = block.number;\\n\\n    bonds[msg.sender].push(bond);\\n  }\\n}\\n\",\"keccak256\":\"0x185fda7b97f03fcfded5fed01a707e9ab9f9c10b02a2c36eeec6ba5ff4e3a4d2\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x61010060405234801561001157600080fd5b50604051610812380380610812833981016040819052610030916101b3565b6001600160a01b03841661007e5760405162461bcd60e51b815260206004820152601060248201526f24b73b30b634b2102628103a37b5b2b760811b60448201526064015b60405180910390fd5b6001600160a01b0383166100d45760405162461bcd60e51b815260206004820152601460248201527f496e76616c69642052657761726420746f6b656e0000000000000000000000006044820152606401610075565b600082116101245760405162461bcd60e51b815260206004820152601a60248201527f496e76616c69642052657761726420706f757263656e746167650000000000006044820152606401610075565b600081116101745760405162461bcd60e51b815260206004820152601d60248201527f496e76616c69642056657374696e6720626c6f636b73206e756d6265720000006044820152606401610075565b6001600160a01b039384166080529190921660a05260c09190915260e0526101f6565b80516001600160a01b03811681146101ae57600080fd5b919050565b600080600080608085870312156101c957600080fd5b6101d285610197565b93506101e060208601610197565b6040860151606090960151949790965092505050565b60805160a05160c05160e0516105c861024a600039600081816101a701526103dc01526000818161014b01526104020152600060920152600081816101240152818161024b01526102f201526105c86000f3fe608060405234801561001057600080fd5b50600436106100885760003560e01c80637e994ca31161005b5780637e994ca31461011f578063abf28f3114610146578063eb37acfc1461016d578063fee1a9c8146101a257600080fd5b8063091c76f51461008d5780630e15561a146100d1578063199cbc54146100e8578063327d83b8146100f1575b600080fd5b6100b47f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b0390911681526020015b60405180910390f35b6100da60025481565b6040519081526020016100c8565b6100da60015481565b6101046100ff3660046104a9565b6101c9565b604080519384526020840192909252908201526060016100c8565b6100b47f000000000000000000000000000000000000000000000000000000000000000081565b6100da7f000000000000000000000000000000000000000000000000000000000000000081565b61018061017b3660046104e1565b61020b565b60408051825181526020808401519082015291810151908201526060016100c8565b6100da7f000000000000000000000000000000000000000000000000000000000000000081565b600060205281600052604060002081815481106101e557600080fd5b600091825260209091206003909102018054600182015460029092015490935090915083565b61022f60405180606001604052806000815260200160008152602001600081525090565b60405163095ea7b360e01b8152306004820152602481018390527f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03169063095ea7b390604401602060405180830381600087803b15801561029757600080fd5b505af11580156102ab573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906102cf91906104fa565b506040516323b872dd60e01b8152336004820152306024820152604481018390527f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316906323b872dd90606401602060405180830381600087803b15801561033e57600080fd5b505af1158015610352573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061037691906104fa565b6103ba5760405162461bcd60e51b815260206004820152601160248201527013140819195c1bdcda5d0819985a5b1959607a1b604482015260640160405180910390fd5b818152600180548391906000906103d2908490610539565b90915550600090507f000000000000000000000000000000000000000000000000000000000000000060646104277f000000000000000000000000000000000000000000000000000000000000000086610551565b6104319190610570565b61043b9190610551565b90508082602001818152505080600260008282546104599190610539565b909155505043604080840191825233600090815260208181529181208054600181810183559183529183902086516003909302019182559185015191810191909155905160029091015550919050565b600080604083850312156104bc57600080fd5b82356001600160a01b03811681146104d357600080fd5b946020939093013593505050565b6000602082840312156104f357600080fd5b5035919050565b60006020828403121561050c57600080fd5b8151801515811461051c57600080fd5b9392505050565b634e487b7160e01b600052601160045260246000fd5b6000821982111561054c5761054c610523565b500190565b600081600019048311821515161561056b5761056b610523565b500290565b60008261058d57634e487b7160e01b600052601260045260246000fd5b50049056fea264697066735822122059ca35209120f1dd800c5790e5eaede505f0f78c6356e8a35b1c02baf432292564736f6c63430008090033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100885760003560e01c80637e994ca31161005b5780637e994ca31461011f578063abf28f3114610146578063eb37acfc1461016d578063fee1a9c8146101a257600080fd5b8063091c76f51461008d5780630e15561a146100d1578063199cbc54146100e8578063327d83b8146100f1575b600080fd5b6100b47f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b0390911681526020015b60405180910390f35b6100da60025481565b6040519081526020016100c8565b6100da60015481565b6101046100ff3660046104a9565b6101c9565b604080519384526020840192909252908201526060016100c8565b6100b47f000000000000000000000000000000000000000000000000000000000000000081565b6100da7f000000000000000000000000000000000000000000000000000000000000000081565b61018061017b3660046104e1565b61020b565b60408051825181526020808401519082015291810151908201526060016100c8565b6100da7f000000000000000000000000000000000000000000000000000000000000000081565b600060205281600052604060002081815481106101e557600080fd5b600091825260209091206003909102018054600182015460029092015490935090915083565b61022f60405180606001604052806000815260200160008152602001600081525090565b60405163095ea7b360e01b8152306004820152602481018390527f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03169063095ea7b390604401602060405180830381600087803b15801561029757600080fd5b505af11580156102ab573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906102cf91906104fa565b506040516323b872dd60e01b8152336004820152306024820152604481018390527f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316906323b872dd90606401602060405180830381600087803b15801561033e57600080fd5b505af1158015610352573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061037691906104fa565b6103ba5760405162461bcd60e51b815260206004820152601160248201527013140819195c1bdcda5d0819985a5b1959607a1b604482015260640160405180910390fd5b818152600180548391906000906103d2908490610539565b90915550600090507f000000000000000000000000000000000000000000000000000000000000000060646104277f000000000000000000000000000000000000000000000000000000000000000086610551565b6104319190610570565b61043b9190610551565b90508082602001818152505080600260008282546104599190610539565b909155505043604080840191825233600090815260208181529181208054600181810183559183529183902086516003909302019182559185015191810191909155905160029091015550919050565b600080604083850312156104bc57600080fd5b82356001600160a01b03811681146104d357600080fd5b946020939093013593505050565b6000602082840312156104f357600080fd5b5035919050565b60006020828403121561050c57600080fd5b8151801515811461051c57600080fd5b9392505050565b634e487b7160e01b600052601160045260246000fd5b6000821982111561054c5761054c610523565b500190565b600081600019048311821515161561056b5761056b610523565b500290565b60008261058d57634e487b7160e01b600052601260045260246000fd5b50049056fea264697066735822122059ca35209120f1dd800c5790e5eaede505f0f78c6356e8a35b1c02baf432292564736f6c63430008090033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 836,
+        "contract": "contracts/SimpleBond.sol:SimpleBond",
+        "label": "bonds",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_mapping(t_address,t_array(t_struct(Bond)830_storage)dyn_storage)"
+      },
+      {
+        "astId": 838,
+        "contract": "contracts/SimpleBond.sol:SimpleBond",
+        "label": "totalVested",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 840,
+        "contract": "contracts/SimpleBond.sol:SimpleBond",
+        "label": "totalRewards",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_uint256"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_struct(Bond)830_storage)dyn_storage": {
+        "base": "t_struct(Bond)830_storage",
+        "encoding": "dynamic_array",
+        "label": "struct SimpleBond.Bond[]",
+        "numberOfBytes": "32"
+      },
+      "t_mapping(t_address,t_array(t_struct(Bond)830_storage)dyn_storage)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => struct SimpleBond.Bond[])",
+        "numberOfBytes": "32",
+        "value": "t_array(t_struct(Bond)830_storage)dyn_storage"
+      },
+      "t_struct(Bond)830_storage": {
+        "encoding": "inplace",
+        "label": "struct SimpleBond.Bond",
+        "members": [
+          {
+            "astId": 825,
+            "contract": "contracts/SimpleBond.sol:SimpleBond",
+            "label": "vested",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 827,
+            "contract": "contracts/SimpleBond.sol:SimpleBond",
+            "label": "rewards",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 829,
+            "contract": "contracts/SimpleBond.sol:SimpleBond",
+            "label": "block",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "96"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
