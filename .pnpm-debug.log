@@ -1,0 +1,23 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 info pnpm": {
+    "err": {
+      "name": "Error",
+      "message": "not found: upadte",
+      "code": "ENOENT",
+      "stack": "Error: not found: upadte\n    at getNotFoundError (/Users/alain/pnpm-global/5/node_modules/.pnpm/pnpm@6.16.0/node_modules/pnpm/dist/pnpm.cjs:47811:51)\n    at Function.whichSync [as sync] (/Users/alain/pnpm-global/5/node_modules/.pnpm/pnpm@6.16.0/node_modules/pnpm/dist/pnpm.cjs:47888:13)\n    at getCommandAbsolutePathSync (/Users/alain/pnpm-global/5/node_modules/.pnpm/pnpm@6.16.0/node_modules/pnpm/dist/pnpm.cjs:49453:44)\n    at Object.default_1 [as default] (/Users/alain/pnpm-global/5/node_modules/.pnpm/pnpm@6.16.0/node_modules/pnpm/dist/pnpm.cjs:49462:32)\n    at /Users/alain/pnpm-global/5/node_modules/.pnpm/pnpm@6.16.0/node_modules/pnpm/dist/pnpm.cjs:129798:34"
+    }
+  },
+  "2 error pnpm": {
+    "code": "ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL",
+    "prefix": "/Users/alain/DEV/template",
+    "err": {
+      "name": "pnpm",
+      "message": "not found: upadte",
+      "code": "ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL",
+      "stack": "Error: not found: upadte\n    at getNotFoundError (/Users/alain/pnpm-global/5/node_modules/.pnpm/pnpm@6.16.0/node_modules/pnpm/dist/pnpm.cjs:47811:51)\n    at Function.whichSync [as sync] (/Users/alain/pnpm-global/5/node_modules/.pnpm/pnpm@6.16.0/node_modules/pnpm/dist/pnpm.cjs:47888:13)\n    at getCommandAbsolutePathSync (/Users/alain/pnpm-global/5/node_modules/.pnpm/pnpm@6.16.0/node_modules/pnpm/dist/pnpm.cjs:49453:44)\n    at Object.default_1 [as default] (/Users/alain/pnpm-global/5/node_modules/.pnpm/pnpm@6.16.0/node_modules/pnpm/dist/pnpm.cjs:49462:32)\n    at /Users/alain/pnpm-global/5/node_modules/.pnpm/pnpm@6.16.0/node_modules/pnpm/dist/pnpm.cjs:129798:34"
+    }
+  }
+}

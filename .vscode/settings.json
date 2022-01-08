@@ -1,0 +1,9 @@
+{
+  "favorites.resources": ["contracts", "tests", "deploy", "hardhat.config.ts", "package.json"],
+  "solidity.defaultCompiler": "remote",
+  "solidity.compileUsingRemoteVersion": "v0.8.9+commit.e5eed63a",
+  "workbench.colorTheme": "Sourlick Contrast (rainglow)",
+  "code-runner.executorMap": {
+    "typescript": "npx ts-node"
+  }
+}
