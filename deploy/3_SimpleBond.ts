@@ -5,6 +5,7 @@ const deploySimpleBond = async function (hre: HardhatRuntimeEnvironment) {
 
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
+  console.log(deployer, "deployer");
 
   const UAR = (await deployments.getOrNull("UAR"))?.address;
 

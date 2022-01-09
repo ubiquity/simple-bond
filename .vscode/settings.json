@@ -4,6 +4,6 @@
   "solidity.compileUsingRemoteVersion": "v0.8.9+commit.e5eed63a",
   "workbench.colorTheme": "Sourlick Contrast (rainglow)",
   "code-runner.executorMap": {
-    "typescript": "npx ts-node"
+    "typescript": "npx hardhat run"
   }
 }

@@ -49,6 +49,10 @@ contract SimpleBond {
     bonds[msg.sender].push(bond);
   }
 
+  function bondsCount(address addr) public view returns (uint256) {
+    return bonds[addr].length;
+  }
+
   function _bond(address addr, uint256 index) internal view returns (Bond memory) {
     return bonds[addr][index];
   }
@@ -117,7 +121,7 @@ contract SimpleBond {
       uint256 balanceClaimableRewards
     )
   {
-    for (uint256 index = 0; index < bonds[addr].length; index += 1) {
+    for (uint256 index = 0; index < bondsCount(addr); index += 1) {
       Bond memory bond = bonds[addr][index];
 
       balanceDeposit += bond.deposit;
@@ -166,7 +170,7 @@ contract SimpleBond {
   }
 
   function withdraw(address addr, uint256 amount) public returns (uint256 withdrawn) {
-    for (uint256 index = 0; (index < bonds[addr].length) && (amount > 0); index += 1) {
+    for (uint256 index = 0; (index < bondsCount(addr)) && (amount > 0); index += 1) {
       uint256 bondWithdrawn = bondWithdraw(addr, amount, index);
 
       amount -= bondWithdrawn;
@@ -175,7 +179,7 @@ contract SimpleBond {
   }
 
   function claim(address addr, uint256 amount) public returns (uint256 claimed) {
-    for (uint256 index = 0; (index < bonds[addr].length) && (amount > 0); index += 1) {
+    for (uint256 index = 0; (index < bondsCount(addr)) && (amount > 0); index += 1) {
       uint256 bondRewards = bondClaim(addr, amount, index);
 
       amount -= bondRewards;

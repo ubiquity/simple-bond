@@ -196,7 +196,7 @@ const hardhatUserConfig: HardhatUserConfig = {
     apiKey: process.env.ETHERSCAN_API_KEY_ETHEREUM
   },
   typechain: {
-    outDir: "artifacts/types",
+    outDir: "types",
     target: "ethers-v5",
     externalArtifacts: ["abis/*.json"]
   },
