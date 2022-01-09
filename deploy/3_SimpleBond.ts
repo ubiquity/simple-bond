@@ -6,15 +6,14 @@ const deploySimpleBond = async function (hre: HardhatRuntimeEnvironment) {
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
 
-  const LP = (await deployments.getOrNull("LP"))?.address;
   const UAR = (await deployments.getOrNull("UAR"))?.address;
 
-  const rewardPourcentage = 61700;
+  const rewardPerBillion = 1000;
   const vestingBlocks = 32300; // about 5 days
 
   const deployResult = await deploy("SimpleBond", {
     from: deployer,
-    args: [LP, UAR, rewardPourcentage, vestingBlocks],
+    args: [UAR, rewardPerBillion, vestingBlocks],
     log: true
   });
   // if (deployResult.newlyDeployed) {
