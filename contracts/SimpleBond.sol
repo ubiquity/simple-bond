@@ -62,12 +62,12 @@ contract SimpleBond {
     return _bondVesting(_bond(addr, index));
   }
 
-  function _bondUnlockLP(Bond memory bond) internal view returns (uint256) {
+  function _bondUnlockDeposit(Bond memory bond) internal view returns (uint256) {
     return _bondVesting(bond) ? 0 : bond.deposit;
   }
 
-  function bondUnlockLP(address addr, uint256 index) public view returns (uint256) {
-    return _bondUnlockLP(_bond(addr, index));
+  function bondUnlockDeposit(address addr, uint256 index) public view returns (uint256) {
+    return _bondUnlockDeposit(_bond(addr, index));
   }
 
   function _bondClaimableRewards(Bond memory bond) internal view returns (uint256) {
@@ -82,15 +82,15 @@ contract SimpleBond {
     internal
     view
     returns (
-      uint256 balanceLP,
+      uint256 balanceDeposit,
       uint256 balanceRewards,
-      uint256 balanceUnlockLP,
+      uint256 balanceUnlockDeposit,
       uint256 balanceClaimableRewards
     )
   {
-    balanceLP = bond.deposit;
+    balanceDeposit = bond.deposit;
     balanceRewards = bond.rewards;
-    balanceUnlockLP = _bondUnlockLP(bond);
+    balanceUnlockDeposit = _bondUnlockDeposit(bond);
     balanceClaimableRewards = _bondClaimableRewards(bond);
   }
 
@@ -98,9 +98,9 @@ contract SimpleBond {
     public
     view
     returns (
-      uint256 balanceLP,
+      uint256 balanceDeposit,
       uint256 balanceRewards,
-      uint256 balanceUnlockLP,
+      uint256 balanceUnlockDeposit,
       uint256 balanceClaimableRewards
     )
   {
@@ -111,18 +111,18 @@ contract SimpleBond {
     public
     view
     returns (
-      uint256 balanceLP,
+      uint256 balanceDeposit,
       uint256 balanceRewards,
-      uint256 balanceUnlockLP,
+      uint256 balanceUnlockDeposit,
       uint256 balanceClaimableRewards
     )
   {
     for (uint256 index = 0; index < bonds[addr].length; index += 1) {
       Bond memory bond = bonds[addr][index];
 
-      balanceLP += bond.deposit;
+      balanceDeposit += bond.deposit;
       balanceRewards += bond.rewards;
-      balanceUnlockLP += _bondUnlockLP(bond);
+      balanceUnlockDeposit += _bondUnlockDeposit(bond);
       balanceClaimableRewards += _bondClaimableRewards(bond);
     }
   }
