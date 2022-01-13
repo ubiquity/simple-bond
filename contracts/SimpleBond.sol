@@ -3,6 +3,7 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./interfaces/ISimpleBond.sol";
 import "./interfaces/IUAR.sol";
@@ -13,7 +14,7 @@ import "./interfaces/IUAR.sol";
 /// @notice The reward token is fully claimable only after the vesting period
 /// @dev Bond is Ownable, access controled by onlyOwner
 /// @dev Use SafeERC20
-contract SimpleBond is ISimpleBond, Ownable {
+contract SimpleBond is ISimpleBond, Ownable, Pausable {
   using SafeERC20 for IERC20;
 
   struct Bond {
@@ -86,11 +87,21 @@ contract SimpleBond is ISimpleBond, Ownable {
     treasury = treasury_;
   }
 
+  /// @notice Pause Bonding and Claiming
+  function pause() public override onlyOwner {
+    _pause();
+  }
+
+  /// @notice Unpause Bonding and Claiming
+  function unpause() public override onlyOwner {
+    _unpause();
+  }
+
   /// @notice Bond tokens
   /// @param token bonded token address
   /// @param amount amount of token to bond
   /// @return bondId Bond id
-  function bond(address token, uint256 amount) public override returns (uint256 bondId) {
+  function bond(address token, uint256 amount) public override whenNotPaused returns (uint256 bondId) {
     require(rewardsRatio[token] > 0, "Token not allowed");
 
     // @dev throws if not enough allowance or tokens for address
@@ -114,7 +125,7 @@ contract SimpleBond is ISimpleBond, Ownable {
 
   /// @notice Claim all rewards
   /// @return claimed Rewards claimed succesfully
-  function claim() public override returns (uint256 claimed) {
+  function claim() public override whenNotPaused returns (uint256 claimed) {
     for (uint256 index = 0; (index < bonds[msg.sender].length); index += 1) {
       claimed += claimBond(index);
     }
@@ -122,7 +133,7 @@ contract SimpleBond is ISimpleBond, Ownable {
 
   /// @notice Claim bond rewards
   /// @return claimed Rewards claimed succesfully
-  function claimBond(uint256 index) public override returns (uint256 claimed) {
+  function claimBond(uint256 index) public override whenNotPaused returns (uint256 claimed) {
     Bond storage bnd = bonds[msg.sender][index];
     uint256 claimAmount = _bondClaimableRewards(bnd);
 

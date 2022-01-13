@@ -14,6 +14,10 @@ interface ISimpleBond {
 
   function setVestingBlocks(uint256 vestingBlocks_) external;
 
+  function pause() external;
+
+  function unpause() external;
+
   function bond(address token, uint256 amount) external returns (uint256 bondId);
 
   function bondsCount(address token) external returns (uint256 bondNb);

@@ -36,25 +36,17 @@ describe("SimpleBond", function () {
     }
 
     simpleBond = await ethers.getContract("SimpleBond", signer);
-    console.log(simpleBond.address, "simpleBond");
-
     uAR = await ethers.getContract("UAR", signer);
-    console.log(uAR.address, "uAR");
 
     const uarOwner = await uAR.owner();
     console.log("uAR owner", uarOwner);
-    console.log("uAR balance owner", String(await uAR.balanceOf(uarOwner)));
-    console.log("uAR balance signer", String(await uAR.balanceOf(signer.address)));
-    console.log("uAR balance treasury", String(await uAR.balanceOf(treasury.address)));
 
     lp = await ethers.getContract("LP", signer);
     console.log(lp.address, "lp");
 
     // MINT 1000 LP tokens
     await (await lp.mint(amountToMint)).wait();
-    console.log("lp balance owner", String(await lp.balanceOf(uarOwner)));
     console.log("lp balance signer", String(await lp.balanceOf(signer.address)));
-    console.log("lp balance treasury", String(await lp.balanceOf(treasury.address)));
 
     // APPROVE 500 LP tokens to be spent by simpleBond
     await (await lp.approve(simpleBond.address, allowance)).wait();
@@ -150,5 +142,20 @@ describe("SimpleBond", function () {
 
     await (await simpleBond.setRewards(lp.address, rewardsRatio)).wait();
     expect(await simpleBond.rewardsRatio(lp.address)).to.be.equal(rewardsRatio);
+  });
+
+  it("Should pause bonding and claiming", async function () {
+    await simpleBond.bond(lp.address, bigOne);
+
+    await expect(simpleBond.pause()).to.be.not.reverted;
+
+    await expect(simpleBond.bond(lp.address, bigOne)).to.be.revertedWith("Pausable: paused");
+    await expect(simpleBond.claim()).to.be.revertedWith("Pausable: paused");
+    await expect(simpleBond.claimBond(0)).to.be.revertedWith("Pausable: paused");
+
+    await expect(simpleBond.unpause()).to.be.not.reverted;
+
+    await expect(simpleBond.bond(lp.address, bigOne)).to.be.not.reverted;
+    await expect(simpleBond.claim()).to.be.not.reverted;
   });
 });
