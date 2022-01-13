@@ -7,6 +7,7 @@ const deployLP: DeployFunction = async function (hre: HardhatRuntimeEnvironment)
 
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
+  console.log("deployer", deployer);
 
   const deployResult = await deploy("LP", {
     from: deployer,

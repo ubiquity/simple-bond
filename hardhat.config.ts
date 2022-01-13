@@ -40,8 +40,8 @@ const ledger = `ledger://${process.env.PUBLIC_KEY}`;
 const hardhatUserConfig: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   namedAccounts: {
-    admin: { default: 0 },
-    deployer: { default: 1, rinkeby: ledger },
+    deployer: { default: 0, rinkeby: ledger },
+    admin: { default: 1 },
     tester1: { default: 2 },
     tester2: { default: 3 },
     random: { default: 4 },
