@@ -29,7 +29,9 @@ const accounts = [
   process.env.PRIVATE_KEY_0_DEPLOY || "",
   process.env.PRIVATE_KEY_1_TEST || "",
   process.env.PRIVATE_KEY_2_TEST || "",
-  process.env.PRIVATE_KEY_3_TEST || ""
+  process.env.PRIVATE_KEY_3_TEST || "",
+  process.env.PRIVATE_KEY_4_TEST || "",
+  process.env.PRIVATE_KEY_5_TEST || ""
 ];
 
 const admin = process.env.PUBLIC_KEY || "";
@@ -38,11 +40,12 @@ const ledger = `ledger://${process.env.PUBLIC_KEY}`;
 const hardhatUserConfig: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   namedAccounts: {
-    admin: { default: 0, hardhat: admin },
-    deployer: { default: 0, rinkeby: ledger },
-    tester1: { default: 1 },
-    tester2: { default: 2 },
-    random: { default: 3 },
+    admin: { default: 0 },
+    deployer: { default: 1, rinkeby: ledger },
+    tester1: { default: 2 },
+    tester2: { default: 3 },
+    random: { default: 4 },
+    treasury: { default: 5 },
     uAD: "0x0F644658510c95CB46955e55D7BA9DDa9E9fBEc6",
     uAR: "0x5894cFEbFdEdBe61d01F20140f41c5c49AedAe97",
     uAD3CRVf: "0x20955CB69Ae1515962177D164dfC9522feef567E"
@@ -65,21 +68,6 @@ const hardhatUserConfig: HardhatUserConfig = {
   },
   networks: {
     hardhat: {
-      // loggingEnabled: true,
-      // forking: {
-      //   url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`
-      //   // blockNumber: 13918600
-      // },
-      accounts: [
-        {
-          privateKey: process.env.PRIVATE_KEY_1_TEST || "",
-          balance: "100000000000000000000"
-        },
-        {
-          privateKey: process.env.PRIVATE_KEY_2_TEST || "",
-          balance: "100000000000000000000"
-        }
-      ],
       saveDeployments: true,
       initialBaseFeePerGas: 0
     },

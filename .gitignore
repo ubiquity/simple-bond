@@ -2,9 +2,11 @@ node_modules
 .env
 .lh
 .vscode
+.favorites.json
 
 #Hardhat files
 cache
 artifacts
 coverage
 types
+docgen

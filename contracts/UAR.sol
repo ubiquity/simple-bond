@@ -3,11 +3,23 @@ pragma solidity ^0.8.3;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "./interfaces/IUAR.sol";
 
-contract UAR is ERC20, Ownable {
-  constructor(string memory name, string memory symbol) ERC20(name, symbol) {}
+contract UAR is IUAR, ERC20, Ownable {
+  address public immutable treasuryAddress;
 
-  function raiseCapital(uint256 amount) external onlyOwner {
-    _mint(owner(), amount);
+  constructor(
+    string memory name,
+    string memory symbol,
+    address treasuryAddress_
+  ) ERC20(name, symbol) {
+    treasuryAddress = treasuryAddress_;
+  }
+
+  /// @notice raise capital in form of uAR (only redeemable when uAD > 1$)
+  /// @param amount the amount to be minted
+  /// @dev you should be minter to call that function
+  function raiseCapital(uint256 amount) external override onlyOwner {
+    _mint(treasuryAddress, amount);
   }
 }

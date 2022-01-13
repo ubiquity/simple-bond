@@ -2,188 +2,211 @@
 pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "./interfaces/ISimpleBond.sol";
+import "./interfaces/IUAR.sol";
 
-contract SimpleBond {
-  IERC20 public immutable tokenRewards;
-  uint256 public immutable rewardPerBillion;
-  uint256 public immutable vestingBlocks;
+/// @title Simple Bond
+/// @author zapaz.eth
+/// @notice SimpleBond is a simple Bond mecanism, allowing to sell tokens bonded and get rewards tokens
+/// @notice The reward token is fully claimable only after the vesting period
+/// @dev Bond is Ownable, access controled by onlyOwner
+/// @dev Use SafeERC20
+contract SimpleBond is ISimpleBond, Ownable {
+  using SafeERC20 for IERC20;
 
   struct Bond {
     address token;
-    uint256 deposit;
+    uint256 amount;
     uint256 rewards;
+    uint256 claimed;
     uint256 block;
   }
+
+  /// Rewards token address
+  address public immutable tokenRewards;
+
+  /// Rewards ratio for token bonded
+  /// @dev rewardsRatio is per billion of token bonded
+  mapping(address => uint256) public rewardsRatio;
+
+  /// Vesting period
+  /// @dev defined in number of block
+  uint256 public vestingBlocks;
+
+  /// Bonds for each address
+  /// @dev bond index starts at 0 for each address
   mapping(address => Bond[]) public bonds;
-  uint256 public totalDeposit;
+
+  /// Total rewards
   uint256 public totalRewards;
 
+  /// Total rewards claimed
+  uint256 public totalClaimedRewards;
+
+  /// Treasury address
+  address public treasury;
+
+  /// Simple Bond constructor
+  /// @param tokenRewards_ Rewards token address
+  /// @param vestingBlocks_ Vesting duration in blocks
   constructor(
-    address _tokenRewards,
-    uint256 _rewardPerBillion,
-    uint256 _vestingBlocks
+    address tokenRewards_,
+    uint256 vestingBlocks_,
+    address treasury_
   ) {
-    require(_tokenRewards != address(0), "Invalid Reward token");
-    require(_rewardPerBillion > 0, "Invalid Reward pourcentage");
-    require(_vestingBlocks > 0, "Invalid Vesting blocks number");
-    tokenRewards = IERC20(_tokenRewards);
-    rewardPerBillion = _rewardPerBillion;
-    vestingBlocks = _vestingBlocks;
+    require(tokenRewards_ != address(0), "Invalid Reward token");
+    tokenRewards = tokenRewards_;
+    setVestingBlocks(vestingBlocks_);
+    setTreasury(treasury_);
   }
 
-  function deposit(address tokenDeposit, uint256 amount) public returns (Bond memory bond) {
-    require(IERC20(tokenDeposit).allowance(msg.sender, address(this)) >= amount, "Not enough allowance");
-    require(IERC20(tokenDeposit).transferFrom(msg.sender, address(this), amount), "Deposit failed");
+  /// @notice Set Rewards for specific Token
+  /// @param token token address
+  /// @param tokenRewardsRatio rewardsRatio for this token
+  function setRewards(address token, uint256 tokenRewardsRatio) public override onlyOwner {
+    require(token != address(0), "Invalid Reward token");
+    rewardsRatio[token] = tokenRewardsRatio;
 
-    bond.token = tokenDeposit;
+    emit LogSetRewards(token, tokenRewardsRatio);
+  }
 
-    bond.deposit = amount;
-    totalDeposit += amount;
+  /// @notice Set vesting duration
+  /// @param vestingBlocks_ vesting duration in blocks
+  function setVestingBlocks(uint256 vestingBlocks_) public override onlyOwner {
+    require(vestingBlocks_ > 0, "Invalid Vesting blocks number");
+    vestingBlocks = vestingBlocks_;
+  }
 
-    uint256 rewards = ((amount * rewardPerBillion) / 1_000_000_000) * vestingBlocks;
-    bond.rewards = rewards;
+  /// @notice Set treasury address
+  /// @param treasury_ treasury address
+  function setTreasury(address treasury_) public override onlyOwner {
+    require(treasury_ != address(0), "Invalid Treasury address");
+    treasury = treasury_;
+  }
+
+  /// @notice Bond tokens
+  /// @param token bonded token address
+  /// @param amount amount of token to bond
+  /// @return bondId Bond id
+  function bond(address token, uint256 amount) public override returns (uint256 bondId) {
+    require(rewardsRatio[token] > 0, "Token not allowed");
+
+    // @dev throws if not enough allowance or tokens for address
+    // @dev must set token allowance for this smartcontract previously
+    IERC20(token).safeTransferFrom(msg.sender, address(this), amount);
+
+    Bond memory bnd;
+    bnd.token = token;
+    bnd.amount = amount;
+    bnd.block = block.number;
+
+    uint256 rewards = (amount * rewardsRatio[token]) / 1_000_000_000;
+    bnd.rewards = rewards;
     totalRewards += rewards;
 
-    bond.block = block.number;
+    bondId = bonds[msg.sender].length;
+    bonds[msg.sender].push(bnd);
 
-    bonds[msg.sender].push(bond);
+    emit LogBond(msg.sender, bnd.token, bnd.amount, bnd.rewards, bnd.block, bondId);
   }
 
-  function bondsCount(address addr) public view returns (uint256) {
+  /// @notice Claim all rewards
+  /// @return claimed Rewards claimed succesfully
+  function claim() public override returns (uint256 claimed) {
+    for (uint256 index = 0; (index < bonds[msg.sender].length); index += 1) {
+      claimed += claimBond(index);
+    }
+  }
+
+  /// @notice Claim bond rewards
+  /// @return claimed Rewards claimed succesfully
+  function claimBond(uint256 index) public override returns (uint256 claimed) {
+    Bond storage bnd = bonds[msg.sender][index];
+    uint256 claimAmount = _bondClaimableRewards(bnd);
+
+    if (claimAmount > 0) {
+      bnd.claimed += claimAmount;
+      totalClaimedRewards += claimAmount;
+
+      assert(bnd.claimed <= bnd.rewards);
+      IUAR(tokenRewards).raiseCapital(claimAmount);
+      IERC20(tokenRewards).safeTransferFrom(treasury, msg.sender, claimAmount);
+    }
+
+    emit LogClaim(msg.sender, index, claimed);
+  }
+
+  /// @notice Withdraw token from the smartcontract, only for owner
+  /// @param  token token withdraw
+  /// @param amount amount withdraw
+  function withdraw(address token, uint256 amount) public override onlyOwner {
+    IERC20(token).safeTransfer(treasury, amount);
+  }
+
+  /// @notice Bond rewards balance: amount and already claimed
+  /// @return rewards Amount of rewards
+  /// @return rewardsClaimed Amount of rewards already claimed
+  /// @return rewardsClaimable Amount of still claimable rewards
+  function rewardsOf(address addr)
+    public
+    view
+    override
+    returns (
+      uint256 rewards,
+      uint256 rewardsClaimed,
+      uint256 rewardsClaimable
+    )
+  {
+    for (uint256 index = 0; index < bonds[addr].length; index += 1) {
+      (uint256 bondRewards, uint256 bondClaimedRewards, uint256 bondClaimableRewards) = rewardsBondOf(addr, index);
+      rewards += bondRewards;
+      rewardsClaimed += bondClaimedRewards;
+      rewardsClaimable += bondClaimableRewards;
+    }
+  }
+
+  /// @notice Bond rewards balance: amount and already claimed
+  /// @return rewards Amount of rewards
+  /// @return rewardsClaimed Amount of rewards already claimed
+  /// @return rewardsClaimable Amount of still claimable rewards
+  function rewardsBondOf(address addr, uint256 index)
+    public
+    view
+    override
+    returns (
+      uint256 rewards,
+      uint256 rewardsClaimed,
+      uint256 rewardsClaimable
+    )
+  {
+    Bond memory bnd = bonds[addr][index];
+    rewards = bnd.rewards;
+    rewardsClaimed = bnd.claimed;
+    rewardsClaimable = _bondClaimableRewards(bnd);
+  }
+
+  /// @notice Get number of bonds for address
+  /// @return number of bonds
+  function bondsCount(address addr) public view override returns (uint256) {
     return bonds[addr].length;
   }
 
-  function _bond(address addr, uint256 index) internal view returns (Bond memory) {
-    return bonds[addr][index];
-  }
+  /// @dev calculate claimable rewards during vesting period, or all claimable rewards after, minus already claimed
+  function _bondClaimableRewards(Bond memory bnd) internal view returns (uint256 claimable) {
+    assert(block.number >= bnd.block);
 
-  function _bondVesting(Bond memory bond) internal view returns (bool) {
-    assert(block.number >= bond.block);
-    return (block.number - bond.block) < vestingBlocks;
-  }
+    uint256 blocks = block.number - bnd.block;
+    uint256 totalClaimable;
 
-  function bondVesting(address addr, uint256 index) public view returns (bool) {
-    return _bondVesting(_bond(addr, index));
-  }
-
-  function _bondUnlockDeposit(Bond memory bond) internal view returns (uint256) {
-    return _bondVesting(bond) ? 0 : bond.deposit;
-  }
-
-  function bondUnlockDeposit(address addr, uint256 index) public view returns (uint256) {
-    return _bondUnlockDeposit(_bond(addr, index));
-  }
-
-  function _bondClaimableRewards(Bond memory bond) internal view returns (uint256) {
-    return _bondVesting(bond) ? (bond.rewards * (block.number - bond.block)) / vestingBlocks : bond.rewards;
-  }
-
-  function bondClaimableRewards(address addr, uint256 index) public view returns (uint256) {
-    return _bondClaimableRewards(_bond(addr, index));
-  }
-
-  function _bondBalancesOf(Bond memory bond)
-    internal
-    view
-    returns (
-      uint256 balanceDeposit,
-      uint256 balanceRewards,
-      uint256 balanceUnlockDeposit,
-      uint256 balanceClaimableRewards
-    )
-  {
-    balanceDeposit = bond.deposit;
-    balanceRewards = bond.rewards;
-    balanceUnlockDeposit = _bondUnlockDeposit(bond);
-    balanceClaimableRewards = _bondClaimableRewards(bond);
-  }
-
-  function bondBalancesOf(address addr, uint256 index)
-    public
-    view
-    returns (
-      uint256 balanceDeposit,
-      uint256 balanceRewards,
-      uint256 balanceUnlockDeposit,
-      uint256 balanceClaimableRewards
-    )
-  {
-    return _bondBalancesOf(_bond(addr, index));
-  }
-
-  function balancesOf(address addr)
-    public
-    view
-    returns (
-      uint256 balanceDeposit,
-      uint256 balanceRewards,
-      uint256 balanceUnlockDeposit,
-      uint256 balanceClaimableRewards
-    )
-  {
-    for (uint256 index = 0; index < bondsCount(addr); index += 1) {
-      Bond memory bond = bonds[addr][index];
-
-      balanceDeposit += bond.deposit;
-      balanceRewards += bond.rewards;
-      balanceUnlockDeposit += _bondUnlockDeposit(bond);
-      balanceClaimableRewards += _bondClaimableRewards(bond);
-    }
-  }
-
-  function bondWithdraw(
-    address addr,
-    uint256 amount,
-    uint256 index
-  ) internal returns (uint256 withdrawn) {
-    Bond storage bond = bonds[addr][index];
-
-    if (_bondVesting(bond) || bond.deposit == 0) {
-      withdrawn = 0;
+    if (blocks < vestingBlocks) {
+      totalClaimable = (bnd.rewards * blocks) / vestingBlocks;
     } else {
-      withdrawn = (amount <= bond.deposit) ? amount : bond.deposit;
-
-      totalDeposit -= withdrawn;
-      bond.deposit -= withdrawn;
-
-      IERC20(bond.token).transfer(msg.sender, withdrawn);
+      totalClaimable = bnd.rewards;
     }
-  }
 
-  function bondClaim(
-    address addr,
-    uint256 amount,
-    uint256 index
-  ) internal returns (uint256 rewards) {
-    Bond storage bond = bonds[addr][index];
-
-    if (_bondVesting(bond) || bond.rewards == 0) {
-      rewards = 0;
-    } else {
-      rewards = (amount <= bond.rewards) ? amount : bond.rewards;
-
-      totalRewards -= rewards;
-      bond.rewards -= rewards;
-
-      IERC20(tokenRewards).transfer(msg.sender, rewards);
-    }
-  }
-
-  function withdraw(address addr, uint256 amount) public returns (uint256 withdrawn) {
-    for (uint256 index = 0; (index < bondsCount(addr)) && (amount > 0); index += 1) {
-      uint256 bondWithdrawn = bondWithdraw(addr, amount, index);
-
-      amount -= bondWithdrawn;
-      withdrawn += bondWithdrawn;
-    }
-  }
-
-  function claim(address addr, uint256 amount) public returns (uint256 claimed) {
-    for (uint256 index = 0; (index < bondsCount(addr)) && (amount > 0); index += 1) {
-      uint256 bondRewards = bondClaim(addr, amount, index);
-
-      amount -= bondRewards;
-      claimed += bondRewards;
-    }
+    assert(totalClaimable >= bnd.claimed);
+    claimable = totalClaimable - bnd.claimed;
   }
 }

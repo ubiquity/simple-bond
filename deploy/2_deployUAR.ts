@@ -3,14 +3,14 @@ import type { DeployFunction } from "hardhat-deploy/types";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 const deployUAR: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-  const { deployments, getNamedAccounts } = hre;
+  const { ethers, deployments, getNamedAccounts } = hre;
 
   const { deploy } = deployments;
-  const { deployer } = await getNamedAccounts();
+  const { deployer, treasury } = await getNamedAccounts();
 
   const deployResult = await deploy("UAR", {
     from: deployer,
-    args: ["Ubiquity Auto Redeem", "uAR"],
+    args: ["Ubiquity Auto Redeem", "uAR", treasury],
     log: true
   });
   // if (deployResult.newlyDeployed) {
